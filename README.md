@@ -42,7 +42,7 @@ Proyek ini bertujuan untuk menganalisis tingkat adaptasi siswa terhadap pembelaj
 
 Dataset ini berisi data survei siswa dari berbagai latar belakang pendidikan mengenai kesiapan mereka dalam mengikuti pembelajaran daring. Data dikumpulkan dalam format tabular dan terdiri dari 14 kolom dan beberapa baris responden.
 
-- **Jumlah Baris Data:** 5 baris (contoh kecil dari dataset yang sebenarnya)
+- **Jumlah Baris Data:** 1205 baris (contoh kecil dari dataset yang sebenarnya)
 - **Kondisi Data:** Data terdiri dari kombinasi informasi demografis dan teknis yang berkaitan dengan kesiapan pembelajaran daring.
 - **Cocok Untuk:** Supervised Learning dengan algoritma klasifikasi, karena label `Adaptivity Level` merupakan target variabel dengan kelas 0 dan 1.
 
@@ -66,5 +66,72 @@ Dataset ini berisi data survei siswa dari berbagai latar belakang pendidikan men
 | Self LMS             | Apakah siswa menggunakan Learning Management System sendiri                    |
 | Device               | Perangkat yang digunakan untuk belajar daring (Mobile, Tab, dll.)              |
 | **Adaptivity Level** | **Label target**: Tingkat adaptasi terhadap pembelajaran daring (0, 1, ...)     |
+
+---
+
+
+## Validasi Data
+
+### 1. Cek Tipe Data
+Langkah pertama adalah memverifikasi tipe data dari setiap kolom dalam dataset. Ini bertujuan untuk memastikan bahwa data memiliki format yang sesuai sebelum dilakukan pemrosesan lebih lanjut. Misalnya, kolom kategorikal seperti "Gender", "Internet Type", dan "Device" harus dikenali sebagai tipe objek (string), sementara label target "Adaptivity Level" harus bertipe numerik atau dikonversi sebelum proses modeling.
+
+### 2. Cek Missing Value
+Setelah pengecekan dilakukan, dipastikan bahwa dataset tidak mengandung missing value. Hal ini sangat penting karena nilai kosong dapat memengaruhi proses pelatihan model dan menyebabkan bias atau error dalam hasil analisis. Oleh karena itu, tidak diperlukan langkah imputasi atau penghapusan data.
+
+---
+
+## Menentukan Objek Data
+
+### 1. Variabel X (Features)
+Semua kolom selain `Adaptivity Level` diperlakukan sebagai variabel fitur (`X`). Fitur-fitur ini mencerminkan karakteristik demografis dan teknologi dari responden, seperti usia, jenis kelamin, tipe perangkat, hingga jenis koneksi internet.
+
+### 2. Variabel y (Target)
+Kolom `Adaptivity Level` adalah target dari model, yaitu label yang menunjukkan tingkat adaptasi siswa terhadap pembelajaran daring. Ini adalah variabel kategorikal yang menunjukkan dua kemungkinan kelas (misalnya, 0 dan 1).
+
+---
+
+## Konstruksi Data
+
+### One-Hot Encoding
+Untuk dapat digunakan dalam algoritma Machine Learning, semua variabel kategorikal perlu dikonversi ke format numerik. Proses ini dilakukan menggunakan OneHotEncoder. One-hot encoding akan mengubah setiap kategori menjadi kolom biner terpisah, memungkinkan model mengenali dan membedakan antar kategori tanpa asumsi urutan atau nilai numerik intrinsik.
+
+---
+
+## Skenario Model
+
+### Split Dataset
+Dataset dibagi menjadi dua bagian: 90% untuk data pelatihan dan 10% untuk data pengujian. Rasio ini dipilih agar model memiliki cukup data untuk belajar, sekaligus menyisakan sebagian data untuk menguji performa model secara independen.
+
+---
+
+## Pemilihan Model
+
+### Support Vector Machine (SVM)
+Model klasifikasi yang digunakan dalam proyek ini adalah Support Vector Machine (SVM), yang dikenal efektif untuk klasifikasi dengan dimensi tinggi. SVM bekerja dengan mencari hyperplane optimal yang memisahkan kelas-kelas dengan margin maksimum.
+
+---
+
+## Evaluasi
+
+### 1. Confusion Matrix
+Confusion matrix digunakan untuk mengevaluasi kinerja klasifikasi model dengan menunjukkan jumlah prediksi yang benar dan salah untuk setiap kelas. Matriks ini membantu memahami di mana model mengalami kesalahan dalam klasifikasi.
+
+### 2. Classification Report
+Laporan klasifikasi memberikan metrik seperti precision, recall, f1-score, dan support untuk masing-masing kelas. Metrik ini memberikan gambaran menyeluruh tentang performa model, terutama dalam konteks data yang tidak seimbang.
+
+---
+
+## Review Model
+
+### 1. Hyperparameter Tuning
+Untuk meningkatkan performa model, dilakukan pencarian hyperparameter terbaik menggunakan `GridSearchCV`. Parameter yang diuji meliputi:
+- `C`: parameter regulasi
+- `gamma`: parameter kernel
+- `kernel`: jenis kernel yang digunakan (rbf dan poly)
+
+Proses ini dilakukan untuk menemukan kombinasi parameter yang memberikan akurasi terbaik pada data validasi.
+
+### 2. Mutual Information Regression
+Sebagai bagian dari analisis fitur, dilakukan evaluasi menggunakan teknik mutual information regression. Teknik ini bertujuan untuk mengukur tingkat keterkaitan antara setiap fitur dengan target. Fitur-fitur dengan nilai mutual information yang tinggi dianggap lebih relevan dan berkontribusi signifikan terhadap prediksi.
 
 ---
