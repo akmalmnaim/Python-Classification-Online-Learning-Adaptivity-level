@@ -1,4 +1,4 @@
-# Python-Classification-Online-Learnng-Adaptibility-level
+# Python-Classification-Online-Learning-Adaptivity-level
 
 ## Domain Proyek
 
@@ -69,6 +69,8 @@ Dataset ini berisi data survei siswa dari berbagai latar belakang pendidikan men
 
 ---
 
+## Visualisasi Data
+Memvisualisasikan data agar mengetahui gambaran umum terhadap dataset
 
 ## Validasi Data
 
